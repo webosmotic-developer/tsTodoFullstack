@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var bodyParser = require("body-parser");
+var dotenv = require("dotenv");
 var express = require("express");
 var morgan = require("morgan");
 var mongoose = require("mongoose");
@@ -8,6 +9,9 @@ var path = require("path");
 var routes_1 = require("./routes");
 var app = express();
 exports.app = app;
+if (process.env.NODE_ENV !== 'production') {
+    dotenv.load({ path: '.env' });
+}
 app.set('port', (process.env.PORT || 3000));
 app.use('/', express.static(path.join(__dirname, '../public')));
 app.use(bodyParser.json());

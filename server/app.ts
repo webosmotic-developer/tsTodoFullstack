@@ -8,12 +8,14 @@ import * as path from 'path';
 import setRoutes from './routes';
 
 const app = express();
-dotenv.load({ path: '.env' });
+if (process.env.NODE_ENV !== 'production') {
+    dotenv.load({path: '.env'});
+}
 app.set('port', (process.env.PORT || 3000));
 
 app.use('/', express.static(path.join(__dirname, '../public')));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 
 app.use(morgan('dev'));
 mongoose.connect(process.env.MONGODB_URI);
@@ -22,18 +24,18 @@ const db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => {
-  console.log('Connected to MongoDB');
+    console.log('Connected to MongoDB');
 
-  setRoutes(app);
+    setRoutes(app);
 
-  app.get('/*', function(req, res) {
-    res.sendFile(path.join(__dirname, '../public/index.html'));
-  });
+    app.get('/*', function (req, res) {
+        res.sendFile(path.join(__dirname, '../public/index.html'));
+    });
 
-  app.listen(app.get('port'), () => {
-    console.log('Angular Full Stack listening on port ' + app.get('port'));
-  });
+    app.listen(app.get('port'), () => {
+        console.log('Angular Full Stack listening on port ' + app.get('port'));
+    });
 
 });
 
-export { app };
+export {app};
