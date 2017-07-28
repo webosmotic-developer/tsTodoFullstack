@@ -15,7 +15,7 @@ export class TodoService {
      */
     fnGetAll(): Observable<any> {
         return this._http
-            .get(TodoService.ENDPOINT.replace(/:id/, ''))
+            .get(TodoService.ENDPOINT.replace(/\/:id/, ''))
             .map((r) => r.json());
     }
 
@@ -40,7 +40,7 @@ export class TodoService {
         headers.append('Content-Type', 'application/json');
 
         return this._http
-            .post(TodoService.ENDPOINT.replace(/:id/, ''), _messageStr, {headers})
+            .post(TodoService.ENDPOINT.replace(/\/:id/, ''), _messageStr, {headers})
             .map((r) => r.json());
     }
 
